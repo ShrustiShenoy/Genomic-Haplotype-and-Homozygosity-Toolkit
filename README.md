@@ -67,7 +67,7 @@ The toolkit calculates pairwise Identity-by-State (IBS) similarity among haploty
 
 ### Homozygosity Analysis
 
-Genome-wide homozygosity is estimated from callable SNP sites.
+Genome-wide homozygosity is estimated from callable SNP sites across autosomes (chr1–22), rather than from every genomic base.
 
 The software identifies:
 
@@ -76,6 +76,16 @@ The software identifies:
 * Heterozygous calls
 * No-call sites
 
+Important notes on genomic coverage:
+
+* Analysis is restricted to autosomal chromosomes (chr1–22)
+* Only high-quality SNPs are included (filtered by genotype quality and depth)
+* Indels and multi-allelic variants are excluded by default
+* Non-variant regions of the genome are not analyzed
+* Sex chromosomes (chrX, chrY) and mitochondrial DNA are not included unless explicitly configured
+
+Thus, the estimates reflect genome-wide patterns based on variant sites, rather than complete base-by-base genome coverage.
+
 Runs of Homozygosity (ROH) are detected using a sliding-window approach and summarized as:
 
 FROH = Total ROH Length / Total Autosomal Genome Length
@@ -83,109 +93,4 @@ FROH = Total ROH Length / Total Autosomal Genome Length
 FROH is commonly used as a genomic estimator of autozygosity and parental relatedness.
 
 ---
-
-## Requirements
-
-Python 3.9+
-
-Required packages:
-
-```bash
-pip install cyvcf2 pandas numpy matplotlib scipy configparser
-```
-
----
-
-## Installation
-
-Clone the repository:
-
-```bash
-git clone https://github.com/USERNAME/Genomic-Haplotype-and-Homozygosity-Toolkit.git
-
-cd Genomic-Haplotype-and-Homozygosity-Toolkit
-```
-
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-## Running Haplotype Analysis
-
-Configure:
-
-```ini
-[PATHS]
-vcf_dir=/path/to/vcfs
-results_dir=./results
-
-[VCF_FILES]
-sample1=sample1
-sample2=sample2
-```
-
-Run:
-
-```bash
-python haplotype_analysis_50kb.py config.ini
-```
-
----
-
-## Running Homozygosity Analysis
-
-Configure:
-
-```ini
-[SAMPLES]
-sample1=/path/sample1.vcf.gz
-sample2=/path/sample2.vcf.gz
-```
-
-Run:
-
-```bash
-python homozygosity_visualiser2.py homozygosity_config.in
-```
-
----
-
-## Input Requirements
-
-Each sample must have:
-
-```text
-sample.hard-filtered.vcf.gz
-sample.hard-filtered.vcf.gz.tbi
-```
-
-Generated using bgzip and tabix indexing.
-
----
-
-## Applications
-
-* Founder variant investigations
-* Rare disease studies
-* Population genetics
-* Carrier screening research
-* Consanguinity assessment
-* Autozygosity studies
-* Clinical genomics research
-
----
-
-## Disclaimer
-
-This software is intended for research use only and should not be used as the sole basis for clinical decision-making.
-
----
-
-## Citation
-
-If you use this software in academic work, please cite the repository and include the software version used in your analyses.
 
